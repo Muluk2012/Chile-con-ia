@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Radar de Desafíos | Chile con IA</title>
+    <meta
+      name="description"
+      content="Radar interactivo de Chile con IA para explorar desafíos país, industrias, capacidades de inteligencia artificial y posibles pilotos."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,600;6..72,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <canvas id="countrySignal" aria-hidden="true"></canvas>
+
+    <header class="site-header">
+      <a class="brand" href="./index.html" aria-label="Chile con IA">
+        <span class="brand-mark">CL</span>
+        <span>Chile con IA</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="nav-links" aria-label="Navegación principal">
+        <a href="./index.html">Inicio</a>
+        <a href="./manifiesto.html">Manifiesto</a>
+        <a href="./plataforma.html">Plataforma</a>
+        <a href="./desafios.html">Desafíos</a>
+        <a href="./industrias.html">Industrias</a>
+        <a class="active" href="./radar.html">Radar</a>
+        <a href="./prueba-1.html">Prueba 1</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-hero radar-hero">
+        <p class="eyebrow">Radar de desafíos</p>
+        <h1>Explora dónde la IA puede generar impacto en Chile.</h1>
+        <p>
+          Un primer mapa interactivo para cruzar desafíos país, industrias,
+          capacidades de inteligencia artificial y pilotos posibles. Es el
+          primer paso para convertir la visión de Chile con IA en una plataforma
+          navegable.
+        </p>
+      </section>
+
+      <section class="radar-shell" aria-label="Radar interactivo">
+        <aside class="radar-controls">
+          <div>
+            <p class="section-label">Filtros</p>
+            <h2>Enfoca el radar.</h2>
+          </div>
+
+          <label class="filter-field" for="challengeFilter">
+            <span>Desafío</span>
+            <select id="challengeFilter" data-radar-filter="challenge">
+              <option value="all">Todos los desafíos</option>
+              <option value="Productividad">Productividad</option>
+              <option value="Medioambiente">Medioambiente</option>
+              <option value="Territorio">Territorio</option>
+              <option value="Conocimiento">Conocimiento</option>
+            </select>
+          </label>
+
+          <label class="filter-field" for="industryFilter">
+            <span>Industria</span>
+            <select id="industryFilter" data-radar-filter="industry">
+              <option value="all">Todas las industrias</option>
+              <option value="Economía circular">Economía circular</option>
+              <option value="Minería sostenible">Minería sostenible</option>
+              <option value="Energía">Energía</option>
+              <option value="Agroindustria">Agroindustria</option>
+              <option value="Logística">Logística</option>
+              <option value="I+D y talento">I+D y talento</option>
+            </select>
+          </label>
+
+          <label class="filter-field" for="capabilityFilter">
+            <span>Capacidad de IA</span>
+            <select id="capabilityFilter" data-radar-filter="capability">
+              <option value="all">Todas las capacidades</option>
+              <option value="Agentes">Agentes</option>
+              <option value="Análisis documental">Análisis documental</option>
+              <option value="Predicción">Predicción</option>
+              <option value="Copilotos">Copilotos</option>
+              <option value="Automatización">Automatización</option>
+              <option value="Búsqueda semántica">Búsqueda semántica</option>
+            </select>
+          </label>
+
+          <button class="button secondary reset-radar" type="button" data-radar-reset>
+            Limpiar filtros
+          </button>
+        </aside>
+
+        <section class="radar-results">
+          <div class="radar-summary">
+            <div>
+              <span id="radarCount">0</span>
+              <p>pilotos visibles</p>
+            </div>
+            <div>
+              <span>6</span>
+              <p>industrias iniciales</p>
+            </div>
+            <div>
+              <span>5</span>
+              <p>capacidades de IA</p>
+            </div>
+          </div>
+
+          <div class="radar-grid" id="radarGrid" aria-live="polite"></div>
+        </section>
+      </section>
+
+      <section class="section feature-band">
+        <div>
+          <p class="section-label">Cómo leer el radar</p>
+          <h2>El radar no es una lista de ideas: es una forma de priorizar acción.</h2>
+        </div>
+        <div class="method-list compact">
+          <div>
+            <strong>Desafío</strong>
+            <span>El problema país o sectorial que queremos abordar.</span>
+          </div>
+          <div>
+            <strong>Industria</strong>
+            <span>El contexto donde el problema se expresa con datos, procesos y actores reales.</span>
+          </div>
+          <div>
+            <strong>Capacidad de IA</strong>
+            <span>La familia técnica que podría habilitar una solución concreta.</span>
+          </div>
+          <div>
+            <strong>Piloto</strong>
+            <span>Una prueba medible que permite aprender rápido sin esperar la plataforma completa.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="closing">
+        <p class="section-label">Siguiente evolución</p>
+        <h2>
+          Este radar puede transformarse en el primer dataset vivo de Chile con
+          IA: cada tarjeta puede crecer hacia fuentes, métricas, agentes,
+          prototipos y casos reales.
+        </h2>
+        <a class="button light" href="./prueba-1.html">Conectar con Prueba 1</a>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Chile con IA</span>
+      <a href="./prueba-1.html">Siguiente: Prueba 1</a>
+    </footer>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

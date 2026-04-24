@@ -2,6 +2,10 @@ const canvas = document.querySelector("#countrySignal");
 const ctx = canvas?.getContext("2d");
 const menuToggle = document.querySelector(".menu-toggle");
 const header = document.querySelector(".site-header");
+const radarGrid = document.querySelector("#radarGrid");
+const radarCount = document.querySelector("#radarCount");
+const radarFilters = document.querySelectorAll("[data-radar-filter]");
+const radarReset = document.querySelector("[data-radar-reset]");
 
 let width = 0;
 let height = 0;
@@ -136,3 +140,148 @@ if (canvas && ctx) {
   resize();
   animate();
 }
+
+const radarItems = [
+  {
+    title: "Oportunidades de valorización de residuos",
+    challenge: "Medioambiente",
+    industry: "Economía circular",
+    capability: "Análisis documental",
+    pilot: "Analizar reportes, planillas y contratos para detectar residuos valorizables y posibles usos secundarios.",
+    impact: "Reduce disposición final, abre nuevos ingresos y mejora trazabilidad ambiental.",
+  },
+  {
+    title: "Agente de cumplimiento ambiental",
+    challenge: "Conocimiento",
+    industry: "Minería sostenible",
+    capability: "Búsqueda semántica",
+    pilot: "Cruzar permisos, RCA, reportes operacionales y normativa para responder preguntas con evidencia.",
+    impact: "Disminuye riesgo regulatorio y acelera revisión técnica en equipos ambientales.",
+  },
+  {
+    title: "Predicción de demanda energética",
+    challenge: "Productividad",
+    industry: "Energía",
+    capability: "Predicción",
+    pilot: "Combinar históricos de consumo, clima y operación para anticipar demanda y optimizar compras.",
+    impact: "Mejora eficiencia, reduce costos y apoya la transición energética.",
+  },
+  {
+    title: "Copiloto de riego y estrés hídrico",
+    challenge: "Medioambiente",
+    industry: "Agroindustria",
+    capability: "Copilotos",
+    pilot: "Asistir decisiones de riego usando clima, suelo, cultivo, imágenes y reglas agronómicas.",
+    impact: "Ahorra agua, protege producción y fortalece adaptación climática.",
+  },
+  {
+    title: "Optimización de rutas portuarias",
+    challenge: "Productividad",
+    industry: "Logística",
+    capability: "Automatización",
+    pilot: "Coordinar ventanas, rutas, cargas y restricciones operacionales con agentes de planificación.",
+    impact: "Reduce tiempos muertos, emisiones y costos de coordinación logística.",
+  },
+  {
+    title: "Radar de transferencia tecnológica",
+    challenge: "Conocimiento",
+    industry: "I+D y talento",
+    capability: "Agentes",
+    pilot: "Explorar papers, patentes, fondos y capacidades universitarias para detectar proyectos transferibles.",
+    impact: "Conecta investigación con industria y acelera innovación aplicada.",
+  },
+  {
+    title: "Simbiosis industrial territorial",
+    challenge: "Territorio",
+    industry: "Economía circular",
+    capability: "Agentes",
+    pilot: "Relacionar residuos de una empresa con insumos potenciales de otra dentro de una misma zona productiva.",
+    impact: "Crea colaboración territorial, reduce residuos y mejora competitividad local.",
+  },
+  {
+    title: "Copiloto de seguridad operacional",
+    challenge: "Productividad",
+    industry: "Minería sostenible",
+    capability: "Copilotos",
+    pilot: "Leer incidentes, procedimientos y reportes para sugerir controles preventivos antes de una tarea.",
+    impact: "Apoya mejores decisiones en terreno y reduce exposición a riesgos críticos.",
+  },
+  {
+    title: "Asistente de reconversión laboral",
+    challenge: "Territorio",
+    industry: "I+D y talento",
+    capability: "Búsqueda semántica",
+    pilot: "Mapear brechas de habilidades entre industrias locales, cursos disponibles y nuevos roles con IA.",
+    impact: "Facilita movilidad laboral y formación pertinente para cambios productivos.",
+  },
+  {
+    title: "Detección de pérdidas en cadenas de alimentos",
+    challenge: "Medioambiente",
+    industry: "Agroindustria",
+    capability: "Predicción",
+    pilot: "Analizar calidad, tiempos, temperatura y logística para anticipar pérdidas y mermas.",
+    impact: "Reduce desperdicio, mejora margen y fortalece seguridad alimentaria.",
+  },
+];
+
+function getRadarState() {
+  return Array.from(radarFilters).reduce((state, filter) => {
+    state[filter.dataset.radarFilter] = filter.value;
+    return state;
+  }, {});
+}
+
+function matchesRadarFilters(item, filters) {
+  return Object.entries(filters).every(([key, value]) => value === "all" || item[key] === value);
+}
+
+function renderRadar() {
+  if (!radarGrid || !radarCount) return;
+
+  const filters = getRadarState();
+  const visibleItems = radarItems.filter((item) => matchesRadarFilters(item, filters));
+
+  radarCount.textContent = String(visibleItems.length);
+
+  if (visibleItems.length === 0) {
+    radarGrid.innerHTML = `
+      <article class="radar-empty">
+        <h3>No hay pilotos con esa combinación.</h3>
+        <p>Prueba limpiar filtros o combinar otro desafío con otra industria.</p>
+      </article>
+    `;
+    return;
+  }
+
+  radarGrid.innerHTML = visibleItems
+    .map(
+      (item) => `
+        <article class="radar-card">
+          <header>
+            <div class="radar-meta">
+              <span>${item.challenge}</span>
+              <span>${item.industry}</span>
+              <span>${item.capability}</span>
+            </div>
+            <h3>${item.title}</h3>
+            <p>${item.pilot}</p>
+          </header>
+          <div class="radar-impact">
+            <strong>Impacto esperado</strong>
+            <p>${item.impact}</p>
+          </div>
+        </article>
+      `
+    )
+    .join("");
+}
+
+radarFilters.forEach((filter) => filter.addEventListener("change", renderRadar));
+radarReset?.addEventListener("click", () => {
+  radarFilters.forEach((filter) => {
+    filter.value = "all";
+  });
+  renderRadar();
+});
+
+renderRadar();
