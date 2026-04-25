@@ -2,6 +2,8 @@ const canvas = document.querySelector("#countrySignal");
 const ctx = canvas?.getContext("2d");
 const menuToggle = document.querySelector(".menu-toggle");
 const header = document.querySelector(".site-header");
+const navDropdowns = document.querySelectorAll(".nav-dropdown");
+const currentPage = window.location.pathname.split("/").pop() || "index.html";
 const radarGrid = document.querySelector("#radarGrid");
 const radarCount = document.querySelector("#radarCount");
 const radarFilters = document.querySelectorAll("[data-radar-filter]");
@@ -132,9 +134,34 @@ menuToggle?.addEventListener("click", () => {
 document.querySelectorAll(".nav-links a").forEach((link) => {
   link.addEventListener("click", () => {
     header?.classList.remove("nav-open");
+    navDropdowns.forEach((dropdown) => {
+      dropdown.classList.remove("open");
+      dropdown.querySelector(".nav-dropdown-button")?.setAttribute("aria-expanded", "false");
+    });
     menuToggle?.setAttribute("aria-expanded", "false");
   });
 });
+
+navDropdowns.forEach((dropdown) => {
+  const button = dropdown.querySelector(".nav-dropdown-button");
+
+  button?.addEventListener("click", (event) => {
+    event.stopPropagation();
+    const isOpen = dropdown.classList.toggle("open");
+    button.setAttribute("aria-expanded", String(isOpen));
+  });
+});
+
+document.addEventListener("click", () => {
+  navDropdowns.forEach((dropdown) => {
+    dropdown.classList.remove("open");
+    dropdown.querySelector(".nav-dropdown-button")?.setAttribute("aria-expanded", "false");
+  });
+});
+
+if (currentPage.startsWith("prueba-")) {
+  navDropdowns.forEach((dropdown) => dropdown.classList.add("current"));
+}
 
 if (canvas && ctx) {
   resize();
@@ -151,12 +178,44 @@ const radarItems = [
     impact: "Reduce disposición final, abre nuevos ingresos y mejora trazabilidad ambiental.",
   },
   {
+    title: "Pasaporte digital de materiales",
+    challenge: "Conocimiento",
+    industry: "Economía circular",
+    capability: "Búsqueda semántica",
+    pilot: "Crear fichas consultables de materiales, origen, composición, uso, vida útil y opciones de reutilización.",
+    impact: "Mejora trazabilidad, facilita cumplimiento y habilita mercados secundarios.",
+  },
+  {
+    title: "Copiloto de ecodiseño",
+    challenge: "Productividad",
+    industry: "Economía circular",
+    capability: "Copilotos",
+    pilot: "Asistir equipos de producto para evaluar materiales, reparabilidad, reciclabilidad y reducción de desperdicios.",
+    impact: "Reduce costos de rediseño y acelera innovación circular.",
+  },
+  {
     title: "Agente de cumplimiento ambiental",
     challenge: "Conocimiento",
     industry: "Minería sostenible",
     capability: "Búsqueda semántica",
     pilot: "Cruzar permisos, RCA, reportes operacionales y normativa para responder preguntas con evidencia.",
     impact: "Disminuye riesgo regulatorio y acelera revisión técnica en equipos ambientales.",
+  },
+  {
+    title: "Mantenimiento predictivo de activos críticos",
+    challenge: "Productividad",
+    industry: "Minería sostenible",
+    capability: "Predicción",
+    pilot: "Cruzar sensores, bitácoras y fallas históricas para anticipar detenciones de equipos críticos.",
+    impact: "Reduce paradas no planificadas, costos de mantenimiento y exposición a riesgos.",
+  },
+  {
+    title: "Agente de gestión hídrica minera",
+    challenge: "Medioambiente",
+    industry: "Minería sostenible",
+    capability: "Agentes",
+    pilot: "Integrar consumos, permisos, reportes y balances para detectar brechas y oportunidades de recirculación.",
+    impact: "Mejora uso de agua, trazabilidad y cumplimiento ambiental.",
   },
   {
     title: "Predicción de demanda energética",
@@ -167,12 +226,44 @@ const radarItems = [
     impact: "Mejora eficiencia, reduce costos y apoya la transición energética.",
   },
   {
+    title: "Copiloto de eficiencia energética",
+    challenge: "Medioambiente",
+    industry: "Energía",
+    capability: "Copilotos",
+    pilot: "Analizar consumos, equipos, turnos y contratos para recomendar medidas de ahorro y reducción de emisiones.",
+    impact: "Disminuye costos, carbono operacional y dependencia de medidas reactivas.",
+  },
+  {
+    title: "Agente de escenarios de descarbonización",
+    challenge: "Conocimiento",
+    industry: "Energía",
+    capability: "Agentes",
+    pilot: "Comparar alternativas de electrificación, eficiencia, almacenamiento y compra renovable según impacto y costo.",
+    impact: "Acelera decisiones de inversión y hojas de ruta climáticas.",
+  },
+  {
     title: "Copiloto de riego y estrés hídrico",
     challenge: "Medioambiente",
     industry: "Agroindustria",
     capability: "Copilotos",
     pilot: "Asistir decisiones de riego usando clima, suelo, cultivo, imágenes y reglas agronómicas.",
     impact: "Ahorra agua, protege producción y fortalece adaptación climática.",
+  },
+  {
+    title: "Detección de pérdidas en cadenas de alimentos",
+    challenge: "Medioambiente",
+    industry: "Agroindustria",
+    capability: "Predicción",
+    pilot: "Analizar calidad, tiempos, temperatura y logística para anticipar pérdidas y mermas.",
+    impact: "Reduce desperdicio, mejora margen y fortalece seguridad alimentaria.",
+  },
+  {
+    title: "Agente de trazabilidad agroexportadora",
+    challenge: "Conocimiento",
+    industry: "Agroindustria",
+    capability: "Análisis documental",
+    pilot: "Leer certificaciones, registros de campo, logística y controles para responder auditorías con evidencia.",
+    impact: "Mejora cumplimiento, acceso a mercados y confianza en origen.",
   },
   {
     title: "Optimización de rutas portuarias",
@@ -183,12 +274,44 @@ const radarItems = [
     impact: "Reduce tiempos muertos, emisiones y costos de coordinación logística.",
   },
   {
+    title: "Agente documental de comercio exterior",
+    challenge: "Conocimiento",
+    industry: "Logística",
+    capability: "Análisis documental",
+    pilot: "Revisar documentos de carga, aduana, contratos y requisitos para detectar inconsistencias antes del embarque.",
+    impact: "Reduce retrasos, reprocesos y costos documentales.",
+  },
+  {
+    title: "Predicción de congestión logística",
+    challenge: "Productividad",
+    industry: "Logística",
+    capability: "Predicción",
+    pilot: "Combinar ventanas portuarias, tráfico, clima y demanda para anticipar congestión y recomendar alternativas.",
+    impact: "Mejora continuidad, reduce espera y disminuye emisiones asociadas.",
+  },
+  {
     title: "Radar de transferencia tecnológica",
     challenge: "Conocimiento",
     industry: "I+D y talento",
     capability: "Agentes",
     pilot: "Explorar papers, patentes, fondos y capacidades universitarias para detectar proyectos transferibles.",
     impact: "Conecta investigación con industria y acelera innovación aplicada.",
+  },
+  {
+    title: "Mapa de brechas de talento IA",
+    challenge: "Territorio",
+    industry: "I+D y talento",
+    capability: "Análisis documental",
+    pilot: "Cruzar perfiles laborales, programas formativos y demanda industrial para detectar brechas por territorio.",
+    impact: "Orienta formación, reconversión y empleabilidad en sectores estratégicos.",
+  },
+  {
+    title: "Agente de fondos y convocatorias",
+    challenge: "Conocimiento",
+    industry: "I+D y talento",
+    capability: "Automatización",
+    pilot: "Monitorear fondos, bases y requisitos para recomendar oportunidades según industria, madurez y equipo.",
+    impact: "Aumenta acceso a financiamiento y acelera proyectos colaborativos.",
   },
   {
     title: "Simbiosis industrial territorial",
@@ -214,15 +337,16 @@ const radarItems = [
     pilot: "Mapear brechas de habilidades entre industrias locales, cursos disponibles y nuevos roles con IA.",
     impact: "Facilita movilidad laboral y formación pertinente para cambios productivos.",
   },
-  {
-    title: "Detección de pérdidas en cadenas de alimentos",
-    challenge: "Medioambiente",
-    industry: "Agroindustria",
-    capability: "Predicción",
-    pilot: "Analizar calidad, tiempos, temperatura y logística para anticipar pérdidas y mermas.",
-    impact: "Reduce desperdicio, mejora margen y fortalece seguridad alimentaria.",
-  },
 ];
+
+const industryLinks = {
+  "Economía circular": "./prueba-1.html",
+  "Minería sostenible": "./prueba-2-mineria-sostenible.html",
+  Energía: "./prueba-3-energia-descarbonizacion.html",
+  Agroindustria: "./prueba-4-agroindustria-agua.html",
+  Logística: "./prueba-5-logistica-puertos.html",
+  "I+D y talento": "./prueba-6-id-talento.html",
+};
 
 function getRadarState() {
   return Array.from(radarFilters).reduce((state, filter) => {
@@ -269,6 +393,7 @@ function renderRadar() {
           <div class="radar-impact">
             <strong>Impacto esperado</strong>
             <p>${item.impact}</p>
+            <a class="text-link" href="${industryLinks[item.industry]}">Ver prueba</a>
           </div>
         </article>
       `

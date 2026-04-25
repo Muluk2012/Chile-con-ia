@@ -107,6 +107,82 @@ button {
   border-color: var(--red);
 }
 
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  height: 16px;
+}
+
+.nav-dropdown-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 0;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.nav-dropdown-button::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+}
+
+.nav-dropdown:hover .nav-dropdown-button,
+.nav-dropdown.open .nav-dropdown-button,
+.nav-dropdown.current .nav-dropdown-button {
+  color: var(--ink);
+  border-color: var(--red);
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 30;
+  display: none;
+  min-width: 310px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  background: rgba(255, 250, 240, 0.98);
+  box-shadow: var(--shadow);
+}
+
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown.open .nav-dropdown-menu {
+  display: grid;
+}
+
+.nav-dropdown-menu a {
+  padding: 12px 10px;
+  border-bottom: 1px solid rgba(23, 32, 29, 0.1);
+  color: var(--ink-2);
+}
+
+.nav-dropdown-menu a:last-child {
+  border-bottom: 0;
+}
+
+.nav-dropdown-menu a:hover {
+  color: var(--red);
+  border-color: rgba(23, 32, 29, 0.1);
+}
+
 .menu-toggle {
   display: none;
   width: 42px;
@@ -459,6 +535,21 @@ h3 {
   color: var(--muted);
   font-size: 0.95rem;
   font-weight: 650;
+}
+
+.text-link {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 22px;
+  padding-bottom: 3px;
+  border-bottom: 2px solid var(--red);
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 900;
+}
+
+.text-link:hover {
+  color: var(--red);
 }
 
 .quote-block {
@@ -933,6 +1024,36 @@ h3 {
 
   .nav-links a:last-child {
     border-bottom: 0;
+  }
+
+  .nav-dropdown {
+    border-bottom: 1px solid rgba(23, 32, 29, 0.1);
+  }
+
+  .nav-dropdown-button {
+    justify-content: space-between;
+    width: 100%;
+    padding: 13px 8px;
+    border-bottom: 0;
+    color: var(--muted);
+    text-align: left;
+  }
+
+  .nav-dropdown-menu {
+    position: static;
+    min-width: 0;
+    padding: 0 0 8px 12px;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .nav-dropdown:hover .nav-dropdown-menu {
+    display: none;
+  }
+
+  .nav-dropdown.open .nav-dropdown-menu {
+    display: grid;
   }
 
   .hero {
